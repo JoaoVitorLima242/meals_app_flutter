@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/common_widgets/TextWithIcon.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:meals_app/models/meal.dart';
 
@@ -6,6 +7,16 @@ class MealItem extends StatelessWidget {
   const MealItem({super.key, required this.meal});
 
   final Meal meal;
+
+  String get complexityText {
+    return meal.complexity.name[0].toUpperCase() +
+        meal.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return meal.affordability.name[0].toUpperCase() +
+        meal.affordability.name.substring(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +61,23 @@ class MealItem extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextWithIcon(
+                          icon: Icons.schedule,
+                          label: '${meal.duration} min',
+                        ),
+                        TextWithIcon(
+                          icon: Icons.work,
+                          label: complexityText,
+                        ),
+                        TextWithIcon(
+                          icon: Icons.attach_money,
+                          label: affordabilityText,
+                        ),
+                      ],
+                    ) // We can put this row inside a Row because Positioned have a width limit
                   ],
                 ),
               ),
