@@ -13,21 +13,25 @@ class MealsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget scaffoldBody = ListView.builder(
-      itemBuilder: (ctx, index) => Text(meals[index].title),
+    Widget scaffoldBody = Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Uh oh... nothing here!',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 16),
+          const Text('Trying selecting a different category!'),
+          const SizedBox(height: 16),
+        ],
+      ),
     );
 
-    if (meals.isEmpty) {
-      scaffoldBody = const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Uh oh... nothing here!'),
-            SizedBox(height: 16),
-            Text('Trying selecting a different category!'),
-            SizedBox(height: 16),
-          ],
-        ),
+    if (meals.isNotEmpty) {
+      scaffoldBody = ListView.builder(
+        itemCount: meals.length,
+        itemBuilder: (ctx, index) => Text(meals[index].title),
       );
     }
 
