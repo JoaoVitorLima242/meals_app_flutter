@@ -17,15 +17,30 @@ class _TabBarScreen extends State<TabBarScreen> {
   final List<Meal> _favoritesMeals = [];
   int _selectedRageIndex = 0;
 
+  void _showFeedbackMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
   void _toggleMealFavoriteStatues(Meal meal) {
     final isExisting = _favoritesMeals.contains(meal);
 
     if (isExisting) {
-      _favoritesMeals.remove(meal);
+      setState(() {
+        _favoritesMeals.remove(meal);
+      });
+      _showFeedbackMessage('Meal removed!');
       return;
     }
 
-    _favoritesMeals.add(meal);
+    setState(() {
+      _favoritesMeals.add(meal);
+    });
+    _showFeedbackMessage('Marked as a favorite!');
   }
 
   void _onSelectPage(int selectedIndex) {
