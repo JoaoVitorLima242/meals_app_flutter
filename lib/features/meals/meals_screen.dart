@@ -7,11 +7,11 @@ class MealsScreen extends StatelessWidget {
   const MealsScreen({
     super.key,
     required this.meals,
-    required this.title,
+    this.title,
   });
 
   final List<Meal> meals;
-  final String title;
+  final String? title;
 
   void _selectMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(
@@ -23,7 +23,7 @@ class MealsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget scaffoldBody = Center(
+    Widget screenContent = Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -39,7 +39,7 @@ class MealsScreen extends StatelessWidget {
     );
 
     if (meals.isNotEmpty) {
-      scaffoldBody = ListView.builder(
+      screenContent = ListView.builder(
         itemCount: meals.length,
         itemBuilder: (ctx, index) => MealItem(
           meal: meals[index],
@@ -50,9 +50,13 @@ class MealsScreen extends StatelessWidget {
       );
     }
 
+    if (title == null) {
+      return screenContent;
+    }
+
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: scaffoldBody,
+      appBar: AppBar(title: Text(title!)),
+      body: screenContent,
     );
   }
 }
