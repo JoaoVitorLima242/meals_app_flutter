@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/features/tab_bar/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key});
@@ -18,6 +19,7 @@ class _FiltersScreen extends State<FiltersScreen> {
       appBar: AppBar(
         title: const Text('Your Filters'),
       ),
+      drawer: const MainDrawer(currentPage: DrawerRoutes.filters),
       body: Column(children: [
         SwitchListTile(
             value: _gluttenFreeFilterSet,
@@ -34,8 +36,8 @@ class _FiltersScreen extends State<FiltersScreen> {
                   ),
             ),
             subtitle: Text(
-              'Gluten-free',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              'Only include gluten-free meals',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
             ),

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class DrawerListItem extends StatelessWidget {
-  const DrawerListItem(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.onTap});
+  const DrawerListItem({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String title;

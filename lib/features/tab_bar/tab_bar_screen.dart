@@ -50,16 +50,6 @@ class _TabBarScreen extends State<TabBarScreen> {
     });
   }
 
-  void _setScreen(DrawerRoutes identifier) {
-    switch (identifier) {
-      case DrawerRoutes.meals:
-        Navigator.of(context).pop();
-        break;
-      case DrawerRoutes.filters:
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     Widget activePage = CategoriesScreen(
@@ -80,8 +70,8 @@ class _TabBarScreen extends State<TabBarScreen> {
         title: Text(activePageTitle),
       ),
       body: activePage,
-      drawer: MainDrawer(
-        onSelectScreen: _setScreen,
+      drawer: const MainDrawer(
+        currentPage: DrawerRoutes.meals,
       ),
       bottomNavigationBar: BottomTabBar(
         currentIndexPage: _selectedRageIndex,
