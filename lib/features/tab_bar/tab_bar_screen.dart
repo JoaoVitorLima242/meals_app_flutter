@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/features/categories/categories_screen.dart';
 import 'package:meals_app/features/meals/meals_screen.dart';
 import 'package:meals_app/features/tab_bar/widgets/bottom_tab_bar.dart';
+import 'package:meals_app/features/tab_bar/widgets/main_drawer.dart';
 import 'package:meals_app/models/meal.dart';
 
 class TabBarScreen extends StatefulWidget {
@@ -49,12 +50,22 @@ class _TabBarScreen extends State<TabBarScreen> {
     });
   }
 
+  void _setScreen(DrawerRoutes identifier) {
+    switch (identifier) {
+      case DrawerRoutes.meals:
+        Navigator.of(context).pop();
+        break;
+      case DrawerRoutes.filters:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget activePage = CategoriesScreen(
       onToggleFavorite: _toggleMealFavoriteStatues,
     );
-    String? activePageTitle = 'Categoires';
+    String? activePageTitle = 'Categories';
 
     if (_selectedRageIndex == 1) {
       activePage = MealsScreen(
@@ -69,6 +80,9 @@ class _TabBarScreen extends State<TabBarScreen> {
         title: Text(activePageTitle),
       ),
       body: activePage,
+      drawer: MainDrawer(
+        onSelectScreen: _setScreen,
+      ),
       bottomNavigationBar: BottomTabBar(
         currentIndexPage: _selectedRageIndex,
         onSelectPage: _onSelectPage,
