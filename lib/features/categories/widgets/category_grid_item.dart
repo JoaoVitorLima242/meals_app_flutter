@@ -27,8 +27,11 @@ class CategoryGridItem extends StatelessWidget {
             ],
           ),
         ),
-        child:
-            Text(category.title, style: Theme.of(context).textTheme.titleLarge),
+        child: Text(category.title,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(fontWeight: FontWeight.bold, fontSize: 21)),
       ),
     );
   }
