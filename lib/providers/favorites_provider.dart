@@ -15,17 +15,17 @@ String returnMessageByToggleType(ToggleFavotitesType type) {
 class FavoritesNotifier extends StateNotifier<List<Meal>> {
   FavoritesNotifier() : super([]);
 
-  ToggleFavotitesType toggleMealFavoritessStatus(Meal meal) {
+  String toggleMealFavoritessStatus(Meal meal) {
     final mealIsFavorite = state.contains(meal);
 
     if (mealIsFavorite) {
       state = state.where((m) => m.id != meal.id).toList();
 
-      return ToggleFavotitesType.removed;
+      return returnMessageByToggleType(ToggleFavotitesType.removed);
     }
 
     state = [...state, meal];
-    return ToggleFavotitesType.added;
+    return returnMessageByToggleType(ToggleFavotitesType.added);
   }
 }
 

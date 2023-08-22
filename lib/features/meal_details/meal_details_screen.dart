@@ -17,28 +17,31 @@ class MealDetailsScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final toggleType = ref
+    final toggleMessage = ref
         .read(favoritesMealsProvider.notifier)
         .toggleMealFavoritessStatus(meal);
-    final scaffoldMessage = returnMessageByToggleType(toggleType);
 
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(scaffoldMessage),
+        content: Text(toggleMessage),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteMeals = ref.watch(favoritesMealsProvider);
+
+    final isFavorite = favoriteMeals.contains(meal);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
           IconButton(
             onPressed: () => onToggleFavorite(context, ref),
-            icon: const Icon(Icons.star),
+            icon: Icon(isFavorite ? Icons.star : Icons.star_border_outlined),
           )
         ],
       ),
