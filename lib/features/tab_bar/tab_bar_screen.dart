@@ -5,6 +5,7 @@ import 'package:meals_app/features/meals/meals_screen.dart';
 import 'package:meals_app/features/tab_bar/widgets/bottom_tab_bar.dart';
 import 'package:meals_app/features/tab_bar/widgets/main_drawer.dart';
 import 'package:meals_app/providers/favorites_provider.dart';
+import 'package:meals_app/providers/filter_provider.dart';
 
 class TabBarScreen extends ConsumerStatefulWidget {
   const TabBarScreen({super.key});
@@ -26,7 +27,13 @@ class _TabBarScreen extends ConsumerState<TabBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = const CategoriesScreen();
+    final selectedFilters = ref.watch(filterProvider);
+    final availableMeals = formatAvailableMeals(selectedFilters);
+    print(availableMeals);
+
+    Widget activePage = CategoriesScreen(
+      meals: availableMeals,
+    );
     String? activePageTitle = 'Categories';
 
     if (_selectedRageIndex == 1) {
