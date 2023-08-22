@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/features/categories/widgets/category_grid_item.dart';
 import 'package:meals_app/features/meals/meals_screen.dart';
 import 'package:meals_app/models/category.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/filter_provider.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key, required this.meals});
-
-  final List<Meal> meals;
+class CategoriesScreen extends ConsumerWidget {
+  const CategoriesScreen({super.key});
 
   void _onSelectCategory(
+    List<Meal> availableMeals,
     BuildContext context,
     Category category,
   ) {
-    final filteredMeals = meals
+    final filteredMeals = availableMeals
         .where(
           (meal) => meal.categories.contains(category.id),
         )
@@ -31,7 +32,9 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final availableMeals = ref.watch(filteredMealsProvider);
+
     return GridView(
       padding: const EdgeInsets.all(16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -45,7 +48,7 @@ class CategoriesScreen extends StatelessWidget {
             (e) => CategoryGridItem(
               category: e,
               onSelectCategory: () {
-                _onSelectCategory(context, e);
+                _onSelectCategory(availableMeals, context, e);
               },
             ),
           )

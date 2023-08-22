@@ -1,32 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals_app/data/dummy_data.dart';
-import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/meals_provider.dart';
 
 enum Filter {
   glutenFree,
   lactoseFree,
   vegetarian,
   vegan,
-}
-
-List<Meal> formatAvailableMeals(Map<Filter, bool> filters) {
-  final availableMeals = dummyMeals.where((meal) {
-    if (filters[Filter.glutenFree]! && !meal.isGlutenFree) {
-      return false;
-    }
-    if (filters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-      return false;
-    }
-    if (filters[Filter.vegetarian]! && !meal.isVegetarian) {
-      return false;
-    }
-    if (filters[Filter.vegan]! && !meal.isVegan) {
-      return false;
-    }
-    return true;
-  }).toList();
-
-  return availableMeals;
 }
 
 class FiltersNotifier extends StateNotifier<Map<Filter, bool>> {
@@ -52,3 +31,24 @@ class FiltersNotifier extends StateNotifier<Map<Filter, bool>> {
 final filterProvider =
     StateNotifierProvider<FiltersNotifier, Map<Filter, bool>>(
         (ref) => FiltersNotifier());
+
+final filteredMealsProvider = Provider((ref) {
+  final meals = ref.watch(mealsProvider);
+  final filters = ref.watch(filterProvider);
+
+  return meals.where((meal) {
+    if (filters[Filter.glutenFree]! && !meal.isGlutenFree) {
+      return false;
+    }
+    if (filters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+      return false;
+    }
+    if (filters[Filter.vegetarian]! && !meal.isVegetarian) {
+      return false;
+    }
+    if (filters[Filter.vegan]! && !meal.isVegan) {
+      return false;
+    }
+    return true;
+  }).toList();
+});
