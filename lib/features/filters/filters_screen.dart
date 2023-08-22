@@ -4,40 +4,17 @@ import 'package:meals_app/features/filters/widgets/filters_check_item.dart';
 import 'package:meals_app/features/tab_bar/widgets/main_drawer.dart';
 import 'package:meals_app/providers/filter_provider.dart';
 
-class FiltersScreen extends ConsumerStatefulWidget {
+class FiltersScreen extends ConsumerWidget {
   const FiltersScreen({super.key});
 
-  @override
-  ConsumerState<FiltersScreen> createState() {
-    return _FiltersScreen();
-  }
-}
-
-class _FiltersScreen extends ConsumerState<FiltersScreen> {
-  Map<Filter, bool> _filters = {
-    Filter.glutenFree: false,
-    Filter.lactoseFree: false,
-    Filter.vegetarian: false,
-    Filter.vegan: false,
-  };
-
-  @override
-  void initState() {
-    super.initState();
-
-    _filters = ref.read(filterProvider);
-  }
-
-  void onFilterCheck(Filter filter, bool isChecked) {
-    setState(() {
-      _filters[filter] = isChecked;
-    });
-
+  void onFilterCheck(WidgetRef ref, Filter filter, bool isChecked) {
     ref.read(filterProvider.notifier).setFilter(filter, isChecked);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filters = ref.watch(filterProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Filters'),
@@ -47,39 +24,33 @@ class _FiltersScreen extends ConsumerState<FiltersScreen> {
         FilterCheckItem(
           title: "Gluten-free",
           subtitle: "Only include gluten-free meals",
-          value: _filters[Filter.glutenFree]!,
+          value: filters[Filter.glutenFree]!,
           onChanged: (isChecked) {
-            onFilterCheck(Filter.glutenFree, isChecked);
+            onFilterCheck(ref, Filter.glutenFree, isChecked);
           },
         ),
         FilterCheckItem(
           title: "Lactose-free",
           subtitle: "Only include lactose-free meals",
-          value: _filters[Filter.lactoseFree]!,
+          value: filters[Filter.lactoseFree]!,
           onChanged: (isChecked) {
-            setState(() {
-              onFilterCheck(Filter.lactoseFree, isChecked);
-            });
+            onFilterCheck(ref, Filter.lactoseFree, isChecked);
           },
         ),
         FilterCheckItem(
           title: "Vegetarian",
           subtitle: "Only include vegetarian meals",
-          value: _filters[Filter.vegetarian]!,
+          value: filters[Filter.vegetarian]!,
           onChanged: (isChecked) {
-            setState(() {
-              onFilterCheck(Filter.vegetarian, isChecked);
-            });
+            onFilterCheck(ref, Filter.vegetarian, isChecked);
           },
         ),
         FilterCheckItem(
           title: "Vegan",
           subtitle: "Only include vegan meals",
-          value: _filters[Filter.vegan]!,
+          value: filters[Filter.vegan]!,
           onChanged: (isChecked) {
-            setState(() {
-              onFilterCheck(Filter.vegan, isChecked);
-            });
+            onFilterCheck(ref, Filter.vegan, isChecked);
           },
         ),
       ]),

@@ -29,7 +29,6 @@ class _TabBarScreen extends ConsumerState<TabBarScreen> {
   Widget build(BuildContext context) {
     final selectedFilters = ref.watch(filterProvider);
     final availableMeals = formatAvailableMeals(selectedFilters);
-    print(availableMeals);
 
     Widget activePage = CategoriesScreen(
       meals: availableMeals,
