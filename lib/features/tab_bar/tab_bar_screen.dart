@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/features/categories/categories_screen.dart';
 import 'package:meals_app/features/meals/meals_screen.dart';
 import 'package:meals_app/features/tab_bar/widgets/bottom_tab_bar.dart';
 import 'package:meals_app/features/tab_bar/widgets/main_drawer.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/meals_provider.dart';
 
-class TabBarScreen extends StatefulWidget {
+class TabBarScreen extends ConsumerStatefulWidget {
   const TabBarScreen({super.key});
 
   @override
-  State<TabBarScreen> createState() {
+  ConsumerState<TabBarScreen> createState() {
     return _TabBarScreen();
   }
 }
 
-class _TabBarScreen extends State<TabBarScreen> {
+class _TabBarScreen extends ConsumerState<TabBarScreen> {
   final List<Meal> _favoritesMeals = [];
   int _selectedRageIndex = 0;
 
@@ -52,6 +54,10 @@ class _TabBarScreen extends State<TabBarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final meals = ref.watch(mealsProvider);
+
+    print(meals);
+
     Widget activePage = CategoriesScreen(
       onToggleFavorite: _toggleMealFavoriteStatues,
     );
