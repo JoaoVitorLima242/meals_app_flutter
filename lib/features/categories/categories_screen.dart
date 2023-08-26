@@ -37,19 +37,20 @@ class _CategoriesScreen extends State<CategoriesScreen>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) => SlideTransition(
-              position: Tween(
-                begin: const Offset(0, 0.3),
-                end: const Offset(0, 0),
-              ).animate(
-                CurvedAnimation(
-                  parent: _animationController,
-                  curve: Curves.easeInOut,
-                ),
-              ),
-              child: child,
-            ),
-        child: const CategoriesScreenContent());
+      animation: _animationController,
+      builder: (context, child) => SlideTransition(
+        position: Tween(
+          begin: const Offset(0, 0.3),
+          end: const Offset(0, 0),
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          ),
+        ),
+        child: child,
+      ),
+      child: const CategoriesScreenContent(),
+    );
   }
 }
