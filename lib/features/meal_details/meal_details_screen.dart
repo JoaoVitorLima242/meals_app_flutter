@@ -41,7 +41,16 @@ class MealDetailsScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () => onToggleFavorite(context, ref),
-            icon: Icon(isFavorite ? Icons.star : Icons.star_border_outlined),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: animation,
+                  child: child,
+                );
+              },
+              child: Icon(isFavorite ? Icons.star : Icons.star_border_outlined),
+            ),
           )
         ],
       ),
