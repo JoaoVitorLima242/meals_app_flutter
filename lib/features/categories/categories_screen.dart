@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals_app/data/dummy_data.dart';
-import 'package:meals_app/features/categories/widgets/category_grid_item.dart';
-import 'package:meals_app/features/meals/meals_screen.dart';
-import 'package:meals_app/models/category.dart';
-import 'package:meals_app/providers/filter_provider.dart';
+import 'package:meals_app/features/categories/widgets/categories_screen_content.dart';
 
-class CategoriesScreen extends ConsumerStatefulWidget {
+class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
 
   @override
-  ConsumerState<CategoriesScreen> createState() {
+  State<CategoriesScreen> createState() {
     return _CategoriesScreen();
   }
 }
 
-class _CategoriesScreen extends ConsumerState<CategoriesScreen>
+class _CategoriesScreen extends State<CategoriesScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController
       _animationController; // With late the component will only be execute when the initial state is executed. Not in the class creation.
@@ -39,62 +34,22 @@ class _CategoriesScreen extends ConsumerState<CategoriesScreen>
     _animationController.dispose();
   }
 
-  void _onSelectCategory(
-    BuildContext context,
-    Category category,
-  ) {
-    final availableMeals = ref.watch(filteredMealsProvider);
-    final filteredMeals = availableMeals
-        .where(
-          (meal) => meal.categories.contains(category.id),
-        )
-        .toList();
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => MealsScreen(
-          meals: filteredMeals,
-          title: category.title,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) => SlideTransition(
-        position: Tween(
-          begin: const Offset(0, 0.3),
-          end: const Offset(0, 0),
-        ).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: Curves.easeInOut,
-          ),
-        ),
-        child: child,
-      ),
-      child: GridView(
-        padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        children: availableCategories
-            .map(
-              (e) => CategoryGridItem(
-                category: e,
-                onSelectCategory: () {
-                  _onSelectCategory(context, e);
-                },
+        animation: _animationController,
+        builder: (context, child) => SlideTransition(
+              position: Tween(
+                begin: const Offset(0, 0.3),
+                end: const Offset(0, 0),
+              ).animate(
+                CurvedAnimation(
+                  parent: _animationController,
+                  curve: Curves.easeInOut,
+                ),
               ),
-            )
-            .toList(),
-      ),
-    );
+              child: child,
+            ),
+        child: const CategoriesScreenContent());
   }
 }
