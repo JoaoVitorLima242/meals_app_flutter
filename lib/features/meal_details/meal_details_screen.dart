@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/features/meal_details/widgets/details_information_list.dart';
+import 'package:meals_app/features/meal_details/widgets/favorite_button.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/features/meal_details/widgets/details_title.dart';
-import 'package:meals_app/providers/favorites_provider.dart';
 
-class MealDetailsScreen extends ConsumerWidget {
+class MealDetailsScreen extends StatelessWidget {
   const MealDetailsScreen({
     super.key,
     required this.meal,
@@ -13,45 +12,13 @@ class MealDetailsScreen extends ConsumerWidget {
 
   final Meal meal;
 
-  void onToggleFavorite(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    final toggleMessage = ref
-        .read(favoritesMealsProvider.notifier)
-        .toggleMealFavoritessStatus(meal);
-
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(toggleMessage),
-      ),
-    );
-  }
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final favoriteMeals = ref.watch(favoritesMealsProvider);
-
-    final isFavorite = favoriteMeals.contains(meal);
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
-          IconButton(
-            onPressed: () => onToggleFavorite(context, ref),
-            icon: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) {
-                return RotationTransition(
-                  turns: animation,
-                  child: child,
-                );
-              },
-              child: Icon(isFavorite ? Icons.star : Icons.star_border_outlined),
-            ),
-          )
+          FavoriteButton(meal: meal),
         ],
       ),
       body: SingleChildScrollView(
