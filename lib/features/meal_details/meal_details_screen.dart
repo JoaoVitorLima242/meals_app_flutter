@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/features/meal_details/widgets/details_information_list.dart';
-import 'package:meals_app/features/meal_details/widgets/favorite_button.dart';
+import 'package:meals_app/common_widgets/favorite_button.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/features/meal_details/widgets/details_title.dart';
 
